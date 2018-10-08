@@ -6,8 +6,6 @@
 import React, {Component} from 'react';
 import GoogleMapReact from 'google-map-react';
 import { Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
-import { render } from 'react-dom';
-import ReactDOM from 'react-dom';
 import { SocialIcon } from 'react-social-icons';
 import './App.css';
 
@@ -70,8 +68,8 @@ class SimpleMap extends Component {
 
                 <header className="App-header">
                     <h1 className="App-title">NO, it will NOT snow in Austin tomorrow.</h1>
-                    <h2 className="Sub-header">Follow our live tracker for updates -                     <SocialIcon url="http://instagram.com/hankharrison" />
-                    </h2>
+                    <h1 className="Sub-header">Follow our live tracker for updates -                     <SocialIcon url="http://instagram.com/hankharrison" />
+                    </h1>
 
                 </header>
             </div>
@@ -79,22 +77,5 @@ class SimpleMap extends Component {
     }
 }
 
-/*
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
-}
-*/
 export default SimpleMap;
 
