@@ -1,81 +1,97 @@
 /*
- Snow Checker Meme Web App
+ Austin Snow Checker
  Hank Harrison
  */
 
 import React, {Component} from 'react';
-import GoogleMapReact from 'google-map-react';
-import { Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
-import { SocialIcon } from 'react-social-icons';
+import {DirectLink} from 'react-scroll'
 import './App.css';
+import SimpleMap from "./map";
+import Weather from "./weather";
+import {Button} from 'react-bootstrap';
 
-const AnyReactComponent = ({text}) => <div>{text}</div>;
+// OpenWeatherMap API key for access
+const Api_Key = "a25453f67de40f4fc9cea2b25c89a172";
 
-class SimpleMap extends Component {
+class App extends Component {
 
-
-    // Page scrolling constructor
-    constructor(props) {
-        super(props);
-        this.scrollToTop = this.scrollToTop.bind(this);
+    constructor(props){
+        super();
     }
 
-    componentDidMount() {
+    // State storage
+    state = {
+        temperature: undefined,     // temperature
+        city: undefined,            // city set to Austin
+        country: undefined,         // country set to US
+        humidity: undefined,        // humidity
+        description: undefined,     // weather description for parsing, extract snow
+        error: undefined            // error storage for handling
+    }
 
-        Events.scrollEvent.register('begin', function () {
-            console.log("begin", arguments);
-        });
+    // Method call for retrieving the weather
+    getWeather = async () => {
+        const api_call = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=austin,us&appid=${Api_Key}`);
+        const response = await api_call.json();
 
-        Events.scrollEvent.register('end', function () {
-            console.log("end", arguments);
-        });
+        console.log(response);
+
+        this.setState({
+            temperature: response.main.temp,
+            city: response.name,
+            country: response.sys.country,
+            humidity: response.main.humidity,
+            description: response.weather[0].description,
+            error: ""
+        })
+
+        // Look over this again this is trash
+        let ourDescription = [];
+        var i = 0;
+        for(i; i < this.state.description.length; i++){
+            if(i === 0 || this.state.description[i-1] === " "){
+                var str = this.state.description[i];
+
+                ourDescription.push(str.toUpperCase());
+                console.log(this.state.description);
+
+            }
+            else{
+                ourDescription.push(this.state.description[i]);
+            }
+        }
+
+        // Conditional snow check
+
+
 
     }
 
-    // Scroll to top
-    scrollToTop() {
-        scroll.scrollToTop();
+    // Fetch API data upon loading component
+    componentWillMount(){
+        var loadweather = this.getWeather();
+        this.forceUpdate();
     }
 
-    static defaultProps = {
-        center: {
-            lat: 30.27,
-            lng: -97.74
-        },
-        zoom: 12
-    };
-
-    render() {
-        return (
-
-            <div style={{position: 'absolute', height: '100%', bottom: '150px', width: '100%'}}>
-
-                <li> <a onClick={() => scroll.scrollToBottom()}>Scroll To Bottom</a></li>
-
-                <GoogleMapReact
-                    bootstrapURLKeys={{key: 'AIzaSyAMaqWKOB46fenB-taPsaY5O3_WKzWHEjw'}}
-                    defaultCenter={this.props.center}
-                    defaultZoom={this.props.zoom}
-
-                >
-                    <AnyReactComponent
-                        lat={59.955413}
-                        lng={30.337844}
-                        text={'Kreyser Avrora'}
-                    />
-
-                </GoogleMapReact>
-
-                <header className="App-header">
-                    <h1 className="App-title">NO, it will NOT snow in Austin tomorrow.</h1>
-                    <h1 className="Sub-header">Follow our live tracker for updates -                     <SocialIcon url="http://instagram.com/hankharrison" />
-                    </h1>
-
-                </header>
+    render(){
+        return(
+            <div>
+                <div>
+            <SimpleMap/>
             </div>
-        );
+                <div>
+            <Weather
+                description={this.state.description}
+            />
+                </div>
+
+            </div>
+
+    )
     }
 }
 
-export default SimpleMap;
+export default App;
+
+
 
