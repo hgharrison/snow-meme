@@ -15,7 +15,7 @@ const Api_Key = "a25453f67de40f4fc9cea2b25c89a172";
 
 class App extends Component {
 
-    constructor(props){
+    constructor(){
         super();
     }
 
@@ -60,16 +60,12 @@ class App extends Component {
                 ourDescription.push(this.state.description[i]);
             }
         }
-
-        // Conditional snow check
-
-
-
     }
+
 
     // Fetch API data upon loading component
     componentWillMount(){
-        var loadweather = this.getWeather();
+        var loadweather = this.getWeather();   // load the weather the lazy way
         this.forceUpdate();
     }
 
