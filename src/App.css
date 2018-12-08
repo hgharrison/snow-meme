@@ -18,7 +18,7 @@
 }
 
 .App-title {
-  font-size: 30px;
+  font-size: 35px;
   margin: 15px;
   text-align: center;
 }
@@ -28,8 +28,9 @@
 }
 
 .Sub-header{
-  font-size: 15px;
+  font-size: 30px;
   text-align: center;
+  margin-top: -15px;
 }
 
 @keyframes App-logo-spin {
